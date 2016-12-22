@@ -380,7 +380,7 @@ goog.scope(function() {
             {
                 isOk = true;
                 this._history.innerHTML += "Игрок: " + this._players[this._movePlayer - 1]._name + " отгадал cлово целеком и выиграл игру. " +  word;
-                for (i = 0; i < this._pole._word.length; i++)
+                for (var i = 0; i < this._pole._word.length; i++)
                 {
                     this._pole.reloadLetters(i);
                 }
@@ -405,7 +405,7 @@ goog.scope(function() {
             }
             this._rotateNotEnter = false;
             var findLetter = false;
-            for (i = 0; i < this._pole._word.length; i++)
+            for (var i = 0; i < this._pole._word.length; i++)
             {
                 if (this._pole._word.charAt(i) == letter)
                 {

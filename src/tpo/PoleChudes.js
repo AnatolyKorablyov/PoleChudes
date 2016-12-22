@@ -126,9 +126,10 @@ goog.scope(function() {
             this._wordOnMonitor = document.createElement("div");
             goog.style.setPosition(this._wordOnMonitor, new goog.math.Coordinate(600, 300));
 
-            for (i = 0; i < word.length; i++)
+            for (var i = 0; i < word.length; i++)
             {
-                letter = document.createElement("div");
+            	
+                var letter = document.createElement("div");
                 letter.className = "letter";
                 letter.innerHTML = "<strong>" + "_" + "</strong>";
                 letter.onclick = goog.bind(this._tapLetter, this, i);
@@ -208,7 +209,7 @@ goog.scope(function() {
                     points += 10000;
                     break;
                 case 6:
-                    for ( i = 0; i < 10; i++)
+                    for ( var i = 0; i < 10; i++)
                     {
                         alert("АААВТОМОБИЛЬ!");
                     }
