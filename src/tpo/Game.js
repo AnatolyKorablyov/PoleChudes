@@ -67,6 +67,7 @@ goog.scope(function() {
         _startGame:function()
         {
             this._button = goog.dom.createElement("INPUT");
+            this._button .style.position = "absolute";
             goog.style.setPosition(this._button, new goog.math.Coordinate(document.documentElement.clientWidth / 2 - 174, document.documentElement.clientHeight / 2 - 66));
             goog.style.setSize(this._button, new goog.math.Size(348, 132));
             this._button.className = "enter";
@@ -147,6 +148,7 @@ goog.scope(function() {
             document.body.appendChild(this._alert4);
 
             this._blockForWord = goog.dom.createElement("INPUT");
+            this._blockForWord.style.position = "absolute";
             goog.style.setPosition(this._blockForWord, new goog.math.Coordinate(250, 100));
             goog.style.setSize(this._blockForWord, new goog.math.Size(350, 25));
             this._blockForWord.className = "enter";
@@ -156,6 +158,7 @@ goog.scope(function() {
             document.body.appendChild(this._blockForWord);
 
             this._blockForHint = goog.dom.createElement("INPUT");
+            this._blockForHint.style.position = "absolute";
             goog.style.setPosition(this._blockForHint, new goog.math.Coordinate(870, 100));
             goog.style.setSize(this._blockForHint, new goog.math.Size(250, 25));
             this._blockForHint.className = "enter";
@@ -193,6 +196,7 @@ goog.scope(function() {
 
 
             this._blockForInputName = goog.dom.createElement("INPUT");
+            this._blockForInputName.style.position = "absolute";
             goog.style.setPosition(this._blockForInputName, new goog.math.Coordinate(200, 570));
             goog.style.setSize(this._blockForInputName, new goog.math.Size(250, 25));
             this._blockForInputName.className = "enter";
@@ -201,6 +205,7 @@ goog.scope(function() {
             document.body.appendChild(this._blockForInputName);
 
             this._buttonForInputName = goog.dom.createElement("INPUT");
+            this._buttonForInputName.style.position = "absolute";
             goog.style.setPosition(this._buttonForInputName, new goog.math.Coordinate(460, 570));
             goog.style.setSize(this._buttonForInputName, new goog.math.Size(75, 27));
             this._buttonForInputName.className = "enter";
@@ -303,6 +308,7 @@ goog.scope(function() {
         _touchLetter: function()
         {
             this._tapLetterInWord = document.createElement("DIV");
+            this._tapLetterInWord.style.position = "absolute";
             this._tapLetterInWord.className = "alert";
             this._tapLetterInWord.innerHTML = "<strong>НАЖМИ НА ЛЮБУЮ БУКВУ В СЛОВЕ </strong>";
             goog.style.setPosition(this._tapLetterInWord, new goog.math.Coordinate(230, 0));
@@ -346,6 +352,7 @@ goog.scope(function() {
 
 
             this._blockForEnterFullWord = goog.dom.createElement("INPUT");
+            this._blockForEnterFullWord.style.position = "absolute";
             goog.style.setPosition(this._blockForEnterFullWord, new goog.math.Coordinate(200, 570));
             goog.style.setSize(this._blockForEnterFullWord, new goog.math.Size(250, 25));
             this._blockForEnterFullWord.className = "enter";
@@ -368,6 +375,7 @@ goog.scope(function() {
         _enterWord: function()
         {
             this._alertEnterWord = document.createElement("DIV");
+            this._alertEnterWord.style.position = "absolute";
             this._alertEnterWord.className = "alert";
             this._alertEnterWord.innerHTML = "Введите букву";
             goog.style.setPosition(this._alertEnterWord, new goog.math.Coordinate(200, 500));
@@ -376,6 +384,7 @@ goog.scope(function() {
 
 
             this._blockForEnterLetter = goog.dom.createElement("INPUT");
+            this._blockForEnterLetter.style.position = "absolute";
             goog.style.setPosition(this._blockForEnterLetter, new goog.math.Coordinate(200, 570));
             goog.style.setSize(this._blockForEnterLetter, new goog.math.Size(250, 25));
             this._blockForEnterLetter.className = "button";
@@ -384,6 +393,7 @@ goog.scope(function() {
             document.body.appendChild(this._blockForEnterLetter);
 
             this._buttonForEnterLetter = goog.dom.createElement("INPUT");
+            this._buttonForEnterLetter.style.position = "absolute";
             goog.style.setPosition(this._buttonForEnterLetter, new goog.math.Coordinate(460, 570));
             goog.style.setSize(this._buttonForEnterLetter, new goog.math.Size(75, 27));
             this._buttonForEnterLetter.className = "button";
@@ -487,6 +497,7 @@ goog.scope(function() {
                 goog.style.setSize(this._alert, new goog.math.Size(150, 25));
 
                 this._rotatingBar = goog.dom.createElement("INPUT");
+                this._rotatingBar.style.position = "absolute";
                 goog.style.setPosition(this._rotatingBar, new goog.math.Coordinate(600, 200));
                 goog.style.setSize(this._rotatingBar, new goog.math.Size(200, 65));
                 this._rotatingBar.className = "enter";
