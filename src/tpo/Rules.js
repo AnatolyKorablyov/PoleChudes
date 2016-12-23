@@ -18,7 +18,7 @@ goog.scope(function() {
             this._rules.value = "Rules";
             this._rules.style.padding = "15px";
             this._rules.style.borderRadius = "10px";
-            goog.style.setPosition(this._rules, new goog.math.Coordinate(700, 100));
+            goog.style.setPosition(this._rules, new goog.math.Coordinate(770, 0));
             goog.style.setSize(this._rules, new goog.math.Size(75, 45));
             this._rules.addEventListener("click", goog.bind(this._func, this));
             document.body.appendChild(this._rules);
@@ -32,7 +32,7 @@ goog.scope(function() {
             document.body.removeChild(this._rules);
             var newRules = document.createElement("DIV");
             newRules.className = "rules";
-            goog.style.setPosition(newRules, new goog.math.Coordinate(700, 100));
+            goog.style.setPosition(newRules, new goog.math.Coordinate(770, 0));
             goog.style.setSize(newRules, new goog.math.Size(250, 100));
             newRules.innerHTML = "<strong>                 Правила                 </strong>" +
                 "1. Барабан крутиться по очереди " +

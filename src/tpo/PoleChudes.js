@@ -47,6 +47,7 @@ goog.scope(function() {
              */
             this._player3 = 0;
 
+            this._quessLettersPlayered = 0;
             this._progress = 0;
             this._touchLetter = false;
 
@@ -128,7 +129,6 @@ goog.scope(function() {
 
             for (var i = 0; i < word.length; i++)
             {
-            	
                 var letter = document.createElement("div");
                 letter.className = "letter";
                 letter.innerHTML = "<strong>" + "_" + "</strong>";
@@ -142,8 +142,10 @@ goog.scope(function() {
 
         reloadLetters: function(num)
         {
+
             if (this._wordOnMonitor.childNodes[num].innerHTML == "<strong>" + "_" + "</strong>")
             {
+                this._quessLettersPlayered += 1;
                 this._guessedLetters -= 1;
                 this._wordOnMonitor.childNodes[num].innerHTML = "<strong>" + this._word.charAt(num) + "</strong>";
             }
@@ -162,10 +164,16 @@ goog.scope(function() {
             }
             document.dispatchEvent(new Event("Score"));
 
+            if (this._quessLettersPlayered == 3)
+            {
+                this._quessLettersPlayered = 0;
+                document.dispatchEvent(new Event("Two boxes"));
+            }
             if (this._guessedLetters == 0)
             {
                 document.dispatchEvent(new Event("Winner"));
             }
+
 
         },
 
@@ -176,7 +184,6 @@ goog.scope(function() {
         {
             this._degrees += this._speed;
             this._speed -= 1;
-            this._leader.style.WebkitTransform = "rotate(" + this._degrees + "deg)";
             this._baraban.style.WebkitTransform = "rotate(" + this._degrees + "deg)";
             if (this._speed <= 0)
             {
@@ -257,7 +264,6 @@ goog.scope(function() {
             var eventTrue = false;
             document.addEventListener("Rotated", function (e)
             {
-                thisPtr._leader.style.WebkitTransform = "rotate(" + 0 + "deg)";
                 if (!eventTrue)
                 {
                     if (player == 1)
@@ -285,11 +291,12 @@ goog.scope(function() {
                 thisPtr._rotateBarabanPhysics();
             }, 1000 / 30);
 
-            if (this._progress == 20)
+            /*if (this._progress == 20)
             {
                 this._baraban.style.height = "400px";
             }
             this._progress++;
+            */
         }
     });
 });
