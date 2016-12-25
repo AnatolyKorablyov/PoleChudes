@@ -15,6 +15,16 @@ goog.scope(function() {
             this.createArrow();
             this.createLeader();
             this._word = word;
+
+            this._bonusPoints = 240;
+
+            this._words = ["вратарь", "фуникулер", "абсент", "воротник"];
+            this._questions = ["Так в старину называли сторожа городских ворот", "Железная дорога с канатной тягой, устраиваемая на крутых подьемах", "Анисовая настойка или ликер", "Что мексиканцы изготовляли из волокнистой древесины кактусов"];
+
+            var res = this._getRandomArbitary(0, 3) | 0;
+            this._word = this._words[res];
+            this._questions = this._questions[res];
+
             this.createWord(this._word);
 
             /**
@@ -61,6 +71,7 @@ goog.scope(function() {
             audio.autoplay = true; // Автоматически запускаем
             audio.repeat = true;
 
+            this._letters = [];
 
             document.onkeydown = function checkKeycode(event)
             {
@@ -193,7 +204,13 @@ goog.scope(function() {
 
         },
 
-        _choosenPoints: function(points)
+        /**
+         * @param points
+         * @param {boolean} bot
+         * @returns {*}
+         * @private
+         */
+        _choosenPoints: function(points, bot)
         {
             var valueBaraban = (this._degrees - (this._degrees / 360 | 0) * 360) / 22.5 | 0;
             switch (valueBaraban) {
@@ -213,12 +230,19 @@ goog.scope(function() {
                     points += 150;
                     break;
                 case 5:
-                    points += 10000;
+                    this._bonusPoints = 10000;
                     break;
                 case 6:
-                    for ( var i = 0; i < 10; i++)
+                    if (!bot)
                     {
-                        alert("АААВТОМОБИЛЬ!");
+                        for ( var i = 0; i < 10; i++)
+                        {
+                            alert("АААВТОМОБИЛЬ!");
+                        }
+                    }
+                    else
+                    {
+                        this._bonusPoints = 1000;
                     }
                     break;
                 case 7:
@@ -241,7 +265,10 @@ goog.scope(function() {
                     points += 300;
                     break;
                 case 13:
-                    alert("ВЫ БАНКРОТ!");
+                    if (!bot)
+                    {
+                        alert("ВЫ БАНКРОТ!");
+                    }
                     document.dispatchEvent(new Event("Next Player"));
                     break;
                 case 14:
@@ -258,6 +285,7 @@ goog.scope(function() {
         rotateBaraban: function(player)
         {
 
+
             this._movingBaraban = true;
             this._movingPlayer = player;
             const thisPtr = this;
@@ -268,16 +296,26 @@ goog.scope(function() {
                 {
                     if (player == 1)
                     {
-                        thisPtr._playerPoints = thisPtr._choosenPoints(thisPtr._player1);
+                        thisPtr._playerPoints = thisPtr._choosenPoints(thisPtr._player1, false);
+                        thisPtr._player1 += thisPtr._bonusPoints;
+
                     }
                     else if (player == 2)
                     {
-                        thisPtr._playerPoints = thisPtr._choosenPoints(thisPtr._player2) / 2 | 0;
+                        thisPtr._playerPoints = thisPtr._choosenPoints(thisPtr._player2, true) / 2 | 0;
+                        thisPtr._player2 += thisPtr._bonusPoints / 2 | 0;
                     }
                     else if (player == 3)
                     {
-                        thisPtr._playerPoints = thisPtr._choosenPoints(thisPtr._player3);
+                        thisPtr._playerPoints = thisPtr._choosenPoints(thisPtr._player3, true);
+                        thisPtr._player3 += thisPtr._bonusPoints;
                     }
+                    if (thisPtr._bonusPoints != 0)
+                    {
+                        document.dispatchEvent(new CustomEvent("Bonus", { 'detail': thisPtr._bonusPoints }));
+                    }
+                    thisPtr._bonusPoints = 0;
+                    document.dispatchEvent(new Event("Score"));
                     clearInterval(intervalID);
                     eventTrue = true;
                     document.dispatchEvent(new Event("Enter letter"));

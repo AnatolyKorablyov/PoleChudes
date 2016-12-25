@@ -12,6 +12,10 @@ goog.require("tpo.PoleChudes");
 goog.scope(function() {
 
     /**
+     * @type {string}
+     */
+    const ALPHABET = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя_";
+    /**
      * @constructor
      */
     tpo.Game = goog.defineClass(null, {
@@ -36,6 +40,7 @@ goog.scope(function() {
             /**@private {Array}*/
             this._players = [];
 
+            this._moveBot = false;
             this._movePlayer = 1;
             this._startGame();
 
@@ -46,8 +51,8 @@ goog.scope(function() {
         _createHistory:function()
         {
             this._history = goog.dom.createElement("DIV");
-            goog.style.setSize(this._history, new goog.math.Size(500, 650));
-            goog.style.setPosition(this._history, new goog.math.Coordinate(855, 0));
+            goog.style.setSize(this._history, new goog.math.Size(document.documentElement.clientWidth / 3 , document.documentElement.clientHeight - 10));
+            goog.style.setPosition(this._history, new goog.math.Coordinate(document.documentElement.clientWidth - document.documentElement.clientWidth / 3 - 10 , 0));
             this._history.className = "history";
             this._history.innerHTML = "HISTORY:";
             document.body.appendChild(this._history);
@@ -121,6 +126,34 @@ goog.scope(function() {
             newDiv3.style.background = "url(../../../src/images/vkontakte.png) repeat #fc0";
 
 
+
+
+            /*this._buttonForInputName = goog.dom.createElement("INPUT");
+            this._buttonForInputName.style.position = "absolute";
+            goog.style.setPosition(this._buttonForInputName, new goog.math.Coordinate(460, 570));
+            goog.style.setSize(this._buttonForInputName, new goog.math.Size(75, 27));
+            this._buttonForInputName.className = "enter";
+            this._buttonForInputName.value = "Add name";
+            this._buttonForInputName.type = "button";
+            document.body.appendChild(this._buttonForInputName);*/
+
+            this._alert = document.createElement("DIV");
+            this._alert.className = "alert";
+            this._alert.innerHTML = "<strong>Правила!</strong> Макс. длина имени - 10 символов. Минимальная - 1 символ." +
+                " Имя должно состоять только из русских букв и начинаться с большой буквы.";
+            goog.style.setPosition(this._alert, new goog.math.Coordinate(document.documentElement.clientWidth / 6, 0));
+            goog.style.setSize(this._alert, new goog.math.Size(document.documentElement.clientWidth / 3, document.documentElement.clientHeight / 8));
+            document.body.appendChild(this._alert);
+
+            this._blockForInputName = goog.dom.createElement("INPUT");
+            this._blockForInputName.style.position = "absolute";
+            goog.style.setPosition(this._blockForInputName, new goog.math.Coordinate(document.documentElement.clientWidth / 6, document.documentElement.clientHeight / 8 + 35));
+            goog.style.setSize(this._blockForInputName, new goog.math.Size(document.documentElement.clientWidth / 3 + 25, 25));
+            this._blockForInputName.className = "enter";
+            this._blockForInputName.type = "text";
+            this._blockForInputName.onchange = goog.bind(this._func, this);
+            document.body.appendChild(this._blockForInputName);
+
             /*this._icon3 = goog.dom.createElement(goog.dom.TagName.A);
             this._icon3.href = "kghgjhkljglhkjgklhjklghj";
             //this._icon.innerText = "url(../../../src/images/facebook.jpg)";
@@ -131,7 +164,7 @@ goog.scope(function() {
             //this._icon.param.href = "http://www.loveradio.ru/player/3868.htm";
             //document.body.appendChild(this._icon);
 
-            this._alert3 = document.createElement("DIV");
+           /* this._alert3 = document.createElement("DIV");
             this._alert3.className = "alert";
             this._alert3.innerHTML = "<strong>Пожалуйста, введите слово для отгадывания. </strong> Макс. длина слова - 15 символов. Минимальная - 3 символ." +
                 " Слово должно состоять только из русских букв.";
@@ -165,59 +198,51 @@ goog.scope(function() {
             this._blockForHint.type = "text";
             this._blockForHint.value = this._hint;
             this._blockForHint.onchange = goog.bind(this._funcForTransferHint, this);
-            document.body.appendChild(this._blockForHint);
+            document.body.appendChild(this._blockForHint);*/
 
             this._createRecordTableButton();
 
         },
         _create:function()
         {
-            document.body.removeChild(this._alert4);
-            document.body.removeChild(this._alert3);
+
+
+            goog.array.insert(this._players, new tpo.Participant(new goog.math.Coordinate(document.documentElement.clientWidth / 10, document.documentElement.clientHeight / 6), 1, this._blockForInputName.value));
+            goog.array.insert(this._players, new tpo.Participant(new goog.math.Coordinate(document.documentElement.clientWidth / 15, document.documentElement.clientHeight / 2.5), 2, "player1"));
+            goog.array.insert(this._players, new tpo.Participant(new goog.math.Coordinate(document.documentElement.clientWidth / 10, document.documentElement.clientHeight / 1.6), 3, "player2"));
+            //this._func(this._blockForInputName.value);
+            //document.body.removeChild(this._buttonForInputName);
+            document.body.removeChild(this._blockForInputName);
             document.body.removeChild(this._recordTable);
-            document.body.removeChild(this._blockForWord);
-            document.body.removeChild(this._blockForHint);
+            document.body.removeChild(this._alert);
+            //document.body.removeChild(this._blockForHint);
             document.body.removeChild(this._button);
+            this._createHistory();
 
-            this._alert = document.createElement("DIV");
-            this._alert.className = "alert";
-            this._alert.innerHTML = "<strong>Правила!</strong> Макс. длина имени - 10 символов. Минимальная - 1 символ." +
-                " Имя должно состоять только из русских букв и начинаться с большой буквы.";
-            goog.style.setPosition(this._alert, new goog.math.Coordinate(230, 0));
-            goog.style.setSize(this._alert, new goog.math.Size(500, 60));
-            document.body.appendChild(this._alert);
 
-            this._alert2 = document.createElement("DIV");
+            /*this._alert2 = document.createElement("DIV");
             this._alert2.className = "alert";
             this._alert2.innerHTML = "Введите имя для <strong>первого</strong> игрока";
             goog.style.setPosition(this._alert2, new goog.math.Coordinate(200, 500));
             goog.style.setSize(this._alert2, new goog.math.Size(300, 25));
-            document.body.appendChild(this._alert2);
-
-
-            this._blockForInputName = goog.dom.createElement("INPUT");
-            this._blockForInputName.style.position = "absolute";
-            goog.style.setPosition(this._blockForInputName, new goog.math.Coordinate(200, 570));
-            goog.style.setSize(this._blockForInputName, new goog.math.Size(250, 25));
-            this._blockForInputName.className = "enter";
-            this._blockForInputName.type = "text";
-            this._blockForInputName.onchange = goog.bind(this._func, this);
-            document.body.appendChild(this._blockForInputName);
-
-            this._buttonForInputName = goog.dom.createElement("INPUT");
-            this._buttonForInputName.style.position = "absolute";
-            goog.style.setPosition(this._buttonForInputName, new goog.math.Coordinate(460, 570));
-            goog.style.setSize(this._buttonForInputName, new goog.math.Size(75, 27));
-            this._buttonForInputName.className = "enter";
-            this._buttonForInputName.value = "Add name";
-            this._buttonForInputName.type = "button";
-            document.body.appendChild(this._buttonForInputName);
+            document.body.appendChild(this._alert2);*/
 
 
 
-            goog.array.insert(this._players, new tpo.Participant(new goog.math.Coordinate(100, 100), 1));
-            goog.array.insert(this._players, new tpo.Participant(new goog.math.Coordinate(75, 250), 2));
-            goog.array.insert(this._players, new tpo.Participant(new goog.math.Coordinate(100, 400), 3));
+            this._rotatingBar = goog.dom.createElement("INPUT");
+            this._rotatingBar.style.position = "absolute";
+            goog.style.setPosition(this._rotatingBar, new goog.math.Coordinate(600, 200));
+            goog.style.setSize(this._rotatingBar, new goog.math.Size(200, 65));
+            this._rotatingBar.className = "enter";
+            this._rotatingBar.style.color = "rgb(50, 220, 90)"
+            this._rotatingBar.type = "button";
+            this._rotatingBar.value = "Крутть барабан";
+            this._rotatingBar.style.borderRadius = "2em 5em/4em 6em";
+            this._rotatingBar.onclick = goog.bind(this._funcRotateBaraban, this);
+            document.body.appendChild(this._rotatingBar);
+
+
+
 
 
             this._numberForName = 0;
@@ -226,14 +251,9 @@ goog.scope(function() {
 
             this._pole = new tpo.PoleChudes(this._word, this._hint);
 
-            this._score1 = document.createElement("DIV");
-            this._score1.className = "alert";
-            this._score1.innerHTML = 0;
-            goog.style.setPosition(this._score1, new goog.math.Coordinate(35, 110));
-            goog.style.setSize(this._score1, new goog.math.Size(30, 10));
-            document.body.appendChild(this._score1);
 
-            this._score2 = document.createElement("DIV");
+
+            /*this._score2 = document.createElement("DIV");
             this._score2.className = "alert";
             this._score2.innerHTML = 0;
             goog.style.setPosition(this._score2, new goog.math.Coordinate(10, 260));
@@ -245,15 +265,20 @@ goog.scope(function() {
             this._score3.innerHTML = 0;
             goog.style.setPosition(this._score3, new goog.math.Coordinate(35, 420));
             goog.style.setSize(this._score3, new goog.math.Size(30, 10));
-            document.body.appendChild(this._score3);
+            document.body.appendChild(this._score3);*/
 
             const thisPtr = this;
+            //const thisPtr = this;
 
-            document.addEventListener("Enter letter", function (e) {
-
-                if (!thisPtr._pole._touchLetter)
+            document.addEventListener("Enter letter", function (e)
+            {
+                if (thisPtr._moveBot)
                 {
-                    var result = confirm("Хотите назвать слово целеком?");
+                    thisPtr._movingBot();
+                }
+                else if (!thisPtr._pole._touchLetter)
+                {
+                    var result = confirm("Хотите назвать слово целиком?");
 
                     if (result)
                         thisPtr._enterFullWord();
@@ -261,12 +286,20 @@ goog.scope(function() {
                         thisPtr._enterWord();
                 }
             });
+            document.addEventListener("Bonus", function (e) {
+                thisPtr._bonusPoints(e.detail);
+            });
+
             document.addEventListener("Score", function (e) {
                 thisPtr._reloadScore();
             });
 
             document.addEventListener("Next Player", function (e) {
                 thisPtr._nextPlayer();
+            });
+
+            document.addEventListener("Move bot", function (e) {
+                thisPtr._funcRotateBaraban();
             });
 
             document.addEventListener("Touch letter", function (e) {
@@ -297,7 +330,47 @@ goog.scope(function() {
                 thisPtr._winnerPlayer();
             });
 
-            this._createHistory();
+
+        },
+
+        _bonusPoints: function(points)
+        {
+            this._history.innerHTML += "Игрок: " + this._players[this._movePlayer - 1]._name + " заработал бонусные очки в размере " + points ;
+        },
+
+        /**
+         * @param {string} let
+         * @returns {boolean}
+         * @private
+         */
+        _checkLetterInArray: function(letas)
+        {
+            for (var i = 0; i < this._pole._letters.length; i++)
+            {
+                if (letas == this._pole._letters[i])
+                {
+                    return false;
+                }
+            }
+            return true;
+        },
+
+        _movingBot: function() {
+            if (!this._pole._touchLetter) {
+                var res = this._pole._getRandomArbitary(0, 33);
+                var quessLetter = this._checkLetterInArray(ALPHABET.charAt(res));
+                while (!quessLetter)
+                {
+                    var res = this._pole._getRandomArbitary(0, 33);
+                    var quessLetter = this._checkLetterInArray(ALPHABET.charAt(res));
+                }
+                this._checkLetterAndHint(ALPHABET.charAt(res));
+            }
+            else
+            {
+                var res = this._pole._getRandomArbitary(0, (this._pole._word.length - 1));
+                this._pole._tapLetter(res | 0);
+            }
         },
 
         _removeTouchLetter: function()
@@ -410,7 +483,19 @@ goog.scope(function() {
             if (this._movePlayer > 3)
             {
                 this._movePlayer = 1;
+                this._moveBot = false;
             }
+            else
+            {
+                this._moveBot = true;
+                document.dispatchEvent(new Event("Move bot"));
+            }
+            if (this._movePlayer == 1)
+                this._alert.innerHTML = "Ходит <strong>первый</strong> игрок";
+            if (this._movePlayer == 2)
+                this._alert.innerHTML = "Ходит <strong>второй</strong> игрок";
+            if (this._movePlayer == 3)
+                this._alert.innerHTML = "Ходит <strong>третий</strong> игрок";
         },
 
         _checkFullWord:function(word)
@@ -421,8 +506,6 @@ goog.scope(function() {
             }
             this._rotateNotEnter = false;
             var isOk = false;
-            console.log("word = " + word);
-            console.log("this._pole._word = " + this._pole._word);
             if (word === this._pole._word)
             {
                 isOk = true;
@@ -433,9 +516,13 @@ goog.scope(function() {
                 }
             }
 
-            document.body.removeChild(this._alertEnterFullWord);
-            document.body.removeChild(this._blockForEnterFullWord);
-            document.body.removeChild(this._buttonForEnterFullWord);
+            if (!this._moveBot && !this._pole._touchLetter)
+            {
+                document.body.removeChild(this._alertEnterFullWord);
+                document.body.removeChild(this._blockForEnterFullWord);
+                document.body.removeChild(this._buttonForEnterFullWord);
+            }
+
             if (!isOk)
             {
                 this._history.innerHTML += "Игрок: " + this._players[this._movePlayer - 1]._name + " не смог отгадать слово целеком. " + word;
@@ -446,6 +533,7 @@ goog.scope(function() {
 
         _checkLetterAndHint: function(letter)
         {
+            this._pole._letters.push(letter);
             if (letter == "")
             {
                 letter = this._blockForEnterLetter.value;
@@ -461,30 +549,33 @@ goog.scope(function() {
                     findLetter = true;
                 }
             }
-
-            document.body.removeChild(this._alertEnterWord);
-            document.body.removeChild(this._blockForEnterLetter);
-            document.body.removeChild(this._buttonForEnterLetter);
-
-            if (!findLetter)
+            if (!this._pole._touchLetter)
             {
+                this._removeEnterWord();
+            }
+
+            if (!findLetter) {
                 this._history.innerHTML += "Игрок: " + this._players[this._movePlayer - 1]._name + " ввел букву, которой нет в слове. " + '\n';
-               this._nextPlayer();
+                this._nextPlayer();
+            }
+            else if (this._moveBot)
+            {
+                document.dispatchEvent(new Event("Move bot"));
             }
         },
 
         _reloadScore: function()
         {
-            this._score1.innerHTML = this._pole._player1;
-            this._score2.innerHTML = this._pole._player2;
-            this._score3.innerHTML = this._pole._player3;
+            this._players[0].setScore(this._pole._player1);
+            this._players[1].setScore(this._pole._player2);
+            this._players[2].setScore(this._pole._player3);
         },
 
         _func: function()
         {
             this._players[this._numberForName].setName(this._blockForInputName.value);
-            this._numberForName++;
-            if (this._numberForName == 3)
+            //this._numberForName++;
+            /*if (this._numberForName == 3)
             {
                 document.body.removeChild(this._blockForInputName);
                 //document.body.removeChild(this._alert);
@@ -496,30 +587,23 @@ goog.scope(function() {
                 goog.style.setPosition(this._alert, new goog.math.Coordinate(230, 0));
                 goog.style.setSize(this._alert, new goog.math.Size(150, 25));
 
-                this._rotatingBar = goog.dom.createElement("INPUT");
-                this._rotatingBar.style.position = "absolute";
-                goog.style.setPosition(this._rotatingBar, new goog.math.Coordinate(600, 200));
-                goog.style.setSize(this._rotatingBar, new goog.math.Size(200, 65));
-                this._rotatingBar.className = "enter";
-                this._rotatingBar.style.color = "rgb(50, 220, 90)"
-                this._rotatingBar.type = "button";
-                this._rotatingBar.value = "Крутить барабан";
-                this._rotatingBar.style.borderRadius = "2em 5em/4em 6em";
-                this._rotatingBar.onclick = goog.bind(this._funcRotateBaraban, this);
-                document.body.appendChild(this._rotatingBar);
+
             }
             if (this._numberForName == 1)
                 this._alert2.innerHTML = "Введите имя для <strong>второго</strong> игрока";
             if (this._numberForName == 2)
-                this._alert2.innerHTML = "Введите имя для <strong>третьего</strong> игрока";
+                this._alert2.innerHTML = "Введите имя для <strong>третьего</strong> игрока";*/
             //this._alert2.innerHTML = "Введите имя для <strong>this._numberForName</strong> игрока";
         },
 
         _removeEnterWord: function()
         {
-            document.body.removeChild(this._alertEnterWord);
-            document.body.removeChild(this._blockForEnterLetter);
-            document.body.removeChild(this._buttonForEnterLetter);
+            if (!this._moveBot)
+            {
+                document.body.removeChild(this._alertEnterWord);
+                document.body.removeChild(this._blockForEnterLetter);
+                document.body.removeChild(this._buttonForEnterLetter);
+            }
         },
 
         _funcRotateBaraban: function()

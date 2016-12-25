@@ -18,8 +18,8 @@ goog.scope(function() {
             this._rules.value = "Rules";
             this._rules.style.padding = "15px";
             this._rules.style.borderRadius = "10px";
-            goog.style.setPosition(this._rules, new goog.math.Coordinate(770, 0));
-            goog.style.setSize(this._rules, new goog.math.Size(75, 45));
+            goog.style.setPosition(this._rules, new goog.math.Coordinate(document.documentElement.clientWidth - document.documentElement.clientWidth / 2.4, 0));
+            goog.style.setSize(this._rules, new goog.math.Size(document.documentElement.clientWidth / 14, document.documentElement.clientWidth / 20));
             this._rules.addEventListener("click", goog.bind(this._func, this));
             document.body.appendChild(this._rules);
 
