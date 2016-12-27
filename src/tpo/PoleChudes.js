@@ -14,7 +14,18 @@ goog.scope(function() {
             this.createBaraban();
             this.createArrow();
             this.createLeader();
+
             this._word = word;
+
+            this._bonusPoints = 0;
+
+            this._words = ["вратарь", "фуникулер", "абсент", "воротник"];
+            this._questions = ["Так в старину называли сторожа городских ворот", "Железная дорога с канатной тягой, устраиваемая на крутых подьемах", "Анисовая настойка или ликер", "Что мексиканцы изготовляли из волокнистой древесины кактусов"];
+
+            var res = this._getRandomArbitary(0, 3) | 0;
+            this._word = this._words[res];
+            this._question = this._questions[res];
+
             this.createWord(this._word);
 
             /**
@@ -47,6 +58,7 @@ goog.scope(function() {
              */
             this._player3 = 0;
 
+            this._quessLettersPlayered = 0;
             this._progress = 0;
             this._touchLetter = false;
 
@@ -60,6 +72,7 @@ goog.scope(function() {
             audio.autoplay = true; // Автоматически запускаем
             audio.repeat = true;
 
+            this._letters = [];
 
             document.onkeydown = function checkKeycode(event)
             {
@@ -68,14 +81,29 @@ goog.scope(function() {
                     document.dispatchEvent(new Event("Rotated"));
                 }
             };
+            this._displayHint();
+
         },
+
+        _displayHint:function()
+        {
+            this._alert = document.createElement("DIV");
+            this._alert.className = "alert";
+            this._alert.innerHTML = "<strong>Подскзка!</strong>" + " " + this._question;
+            goog.style.setPosition(this._alert, new goog.math.Coordinate(document.documentElement.clientWidth / 6, 0));
+            goog.style.setSize(this._alert, new goog.math.Size(document.documentElement.clientWidth / 3, document.documentElement.clientHeight / 10));
+            document.body.appendChild(this._alert);
+        },
+
         createBaraban: function()
         {
             this._baraban = new Image(300, 300);
             this._baraban.src = '../../../src/images/baraban.png';
             this._baraban.style.position = "absolute";
-            this._baraban.style.left = '250px';
-            this._baraban.style.top = '150px';
+            goog.style.setPosition(this._baraban, new goog.math.Coordinate(document.documentElement.clientWidth / 5, document.documentElement.clientHeight / 5));
+            goog.style.setSize(this._baraban, new goog.math.Size(document.documentElement.clientWidth / 4.5, document.documentElement.clientWidth / 4.5));
+            //this._baraban.style.left = ;
+           // this._baraban.style.top = document.documentElement.clientHeight / 6;
             this._baraban.style.WebkitTransform = "rotate(" + this._degrees + "deg)";
             document.body.appendChild(this._baraban);
         },
@@ -83,9 +111,10 @@ goog.scope(function() {
         {
             this._arrow = new Image(50, 50);
             this._arrow.src = '../../../src/images/up.png';
+            goog.style.setPosition(this._arrow, new goog.math.Coordinate(document.documentElement.clientWidth / 3.45, document.documentElement.clientHeight / 1.5));
             this._arrow.style.position = "absolute";
-            this._arrow.style.left = '375px';
-            this._arrow.style.top = '450px';
+            //this._arrow.style.left = '375px';
+            //this._arrow.style.top = '450px';
             document.body.appendChild(this._arrow);
         },
         createLeader: function()
@@ -126,9 +155,9 @@ goog.scope(function() {
             this._wordOnMonitor = document.createElement("div");
             goog.style.setPosition(this._wordOnMonitor, new goog.math.Coordinate(600, 300));
 
-            for (i = 0; i < word.length; i++)
+            for (var i = 0; i < word.length; i++)
             {
-                letter = document.createElement("div");
+                var letter = document.createElement("div");
                 letter.className = "letter";
                 letter.innerHTML = "<strong>" + "_" + "</strong>";
                 letter.onclick = goog.bind(this._tapLetter, this, i);
@@ -141,8 +170,10 @@ goog.scope(function() {
 
         reloadLetters: function(num)
         {
+
             if (this._wordOnMonitor.childNodes[num].innerHTML == "<strong>" + "_" + "</strong>")
             {
+                this._quessLettersPlayered += 1;
                 this._guessedLetters -= 1;
                 this._wordOnMonitor.childNodes[num].innerHTML = "<strong>" + this._word.charAt(num) + "</strong>";
             }
@@ -161,10 +192,16 @@ goog.scope(function() {
             }
             document.dispatchEvent(new Event("Score"));
 
+            if (this._quessLettersPlayered == 3)
+            {
+                this._quessLettersPlayered = 0;
+                document.dispatchEvent(new Event("Two boxes"));
+            }
             if (this._guessedLetters == 0)
             {
                 document.dispatchEvent(new Event("Winner"));
             }
+
 
         },
 
@@ -175,7 +212,6 @@ goog.scope(function() {
         {
             this._degrees += this._speed;
             this._speed -= 1;
-            this._leader.style.WebkitTransform = "rotate(" + this._degrees + "deg)";
             this._baraban.style.WebkitTransform = "rotate(" + this._degrees + "deg)";
             if (this._speed <= 0)
             {
@@ -185,7 +221,13 @@ goog.scope(function() {
 
         },
 
-        _choosenPoints: function(points)
+        /**
+         * @param points
+         * @param {boolean} bot
+         * @returns {*}
+         * @private
+         */
+        _choosenPoints: function(points, bot)
         {
             var valueBaraban = (this._degrees - (this._degrees / 360 | 0) * 360) / 22.5 | 0;
             switch (valueBaraban) {
@@ -205,12 +247,19 @@ goog.scope(function() {
                     points += 150;
                     break;
                 case 5:
-                    points += 10000;
+                    this._bonusPoints = 10000;
                     break;
                 case 6:
-                    for ( i = 0; i < 10; i++)
+                    if (!bot)
                     {
-                        alert("АААВТОМОБИЛЬ!");
+                        for ( var i = 0; i < 10; i++)
+                        {
+                            alert("АААВТОМОБИЛЬ!");
+                        }
+                    }
+                    else
+                    {
+                        this._bonusPoints = 1000;
                     }
                     break;
                 case 7:
@@ -233,7 +282,10 @@ goog.scope(function() {
                     points += 300;
                     break;
                 case 13:
-                    alert("ВЫ БАНКРОТ!");
+                    if (!bot)
+                    {
+                        alert("ВЫ БАНКРОТ!");
+                    }
                     document.dispatchEvent(new Event("Next Player"));
                     break;
                 case 14:
@@ -250,27 +302,37 @@ goog.scope(function() {
         rotateBaraban: function(player)
         {
 
+
             this._movingBaraban = true;
             this._movingPlayer = player;
             const thisPtr = this;
             var eventTrue = false;
             document.addEventListener("Rotated", function (e)
             {
-                thisPtr._leader.style.WebkitTransform = "rotate(" + 0 + "deg)";
                 if (!eventTrue)
                 {
                     if (player == 1)
                     {
-                        thisPtr._playerPoints = thisPtr._choosenPoints(thisPtr._player1);
+                        thisPtr._playerPoints = thisPtr._choosenPoints(thisPtr._player1, false);
+                        thisPtr._player1 += thisPtr._bonusPoints;
+
                     }
                     else if (player == 2)
                     {
-                        thisPtr._playerPoints = thisPtr._choosenPoints(thisPtr._player2) / 2 | 0;
+                        thisPtr._playerPoints = thisPtr._choosenPoints(thisPtr._player2, true) / 2 | 0;
+                        thisPtr._player2 += thisPtr._bonusPoints / 2 | 0;
                     }
                     else if (player == 3)
                     {
-                        thisPtr._playerPoints = thisPtr._choosenPoints(thisPtr._player3);
+                        thisPtr._playerPoints = thisPtr._choosenPoints(thisPtr._player3, true);
+                        thisPtr._player3 += thisPtr._bonusPoints;
                     }
+                    if (thisPtr._bonusPoints != 0)
+                    {
+                        document.dispatchEvent(new CustomEvent("Bonus", { 'detail': thisPtr._bonusPoints }));
+                    }
+                    thisPtr._bonusPoints = 0;
+                    document.dispatchEvent(new Event("Score"));
                     clearInterval(intervalID);
                     eventTrue = true;
                     document.dispatchEvent(new Event("Enter letter"));
@@ -284,11 +346,12 @@ goog.scope(function() {
                 thisPtr._rotateBarabanPhysics();
             }, 1000 / 30);
 
-            if (this._progress == 20)
+            /*if (this._progress == 20)
             {
                 this._baraban.style.height = "400px";
             }
             this._progress++;
+            */
         }
     });
 });

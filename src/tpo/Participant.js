@@ -10,7 +10,7 @@ goog.scope(function() {
      * @constructor
      */
     tpo.Participant = goog.defineClass(null, {
-        constructor: function(position, number) {
+        constructor: function(position, number, name) {
 
 
 
@@ -22,7 +22,7 @@ goog.scope(function() {
             this._number = number;
 
             //Баг! Имя не отображается на на странице
-            this._name = null;
+            this._name = name;
             this._block = goog.dom.createElement(goog.dom.TagName.DIV);
 
             this._createFrame();
@@ -34,7 +34,7 @@ goog.scope(function() {
 
             this._alert2 = document.createElement("DIV");
             this._alert2.className = "hate";
-            this._alert2.innerHTML = "<strong>MTV</strong>";
+            this._alert2.innerHTML = "<strong>" + name+ "</strong>";
             goog.style.setPosition(this._alert2, new goog.math.Coordinate(this._position.x + 5, this._position.y - 25));
             document.body.appendChild(this._alert2);
 
@@ -43,6 +43,19 @@ goog.scope(function() {
             this._alert.innerHTML = "<strong>MTV</strong>";
             goog.style.setPosition(this._alert, new goog.math.Coordinate(this._position.x + 5, this._position.y - 25));
             document.body.appendChild(this._alert);*/
+
+            this._score1 = document.createElement("DIV");
+            this._score1.className = "alert";
+            this._score1.innerHTML = 0;
+            goog.style.setPosition(this._score1, new goog.math.Coordinate(this._position.x - 65, this._position.y));
+            goog.style.setSize(this._score1, new goog.math.Size(30, 10));
+            document.body.appendChild(this._score1);
+        },
+
+
+        setScore:function(score)
+        {
+            this._score1.innerHTML = score;
         },
 
         _createFrame: function()
