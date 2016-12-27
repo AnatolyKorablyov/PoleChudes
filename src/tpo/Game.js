@@ -78,7 +78,6 @@ goog.scope(function() {
             this._button.className = "enter";
             this._button.type = "button";
             this._button.style.background = "url(../../../src/images/Start_Button.png) repeat-y #fc0";
-            //this._button.onchange = goog.bind(this._create, this);
             document.body.appendChild(this._button);
             this._button.addEventListener("click", goog.bind(this._create, this));
 
@@ -90,13 +89,6 @@ goog.scope(function() {
             newDiv.href = "http://google.com/";
             newDiv.addEventListener('click', goog.bind(this._transition, this, newDiv));
             newDiv.style.background = "url(../../../src/images/facebook.jpg) repeat-y #fc0";
-
-
-            /*this._icon = goog.dom.createElement(goog.dom.TagName.A);
-            this._icon.href = "http://google.com";
-            //this._icon.innerText = "url(../../../src/images/facebook.jpg)";
-            this._icon.innerHTML = "facebook";
-            newDiv.appendChild(this._icon);*/
             document.body.appendChild(newDiv);
 
             var newDiv2 = document.createElement("DIV");
@@ -107,13 +99,6 @@ goog.scope(function() {
             newDiv2.href = "";
             newDiv2.addEventListener('click', goog.bind(this._transition, this, newDiv2));
             newDiv2.style.background = "url(../../../src/images/twitter.jpg) repeat #fc0";
-
-
-            /*this._icon2 = goog.dom.createElement(goog.dom.TagName.A);
-            this._icon2.href = "";
-            //this._icon.innerText = "url(../../../src/images/facebook.jpg)";
-            this._icon2.innerHTML = "twitter";
-            newDiv2.appendChild(this._icon2);*/
             document.body.appendChild(newDiv2);
 
             var newDiv3 = document.createElement("DIV");
@@ -124,18 +109,6 @@ goog.scope(function() {
             newDiv3.href = "eto-prosto-bitaya-link-ne-obraschaite-vnimaniya";
             newDiv3.addEventListener('click', goog.bind(this._transition, this, newDiv3));
             newDiv3.style.background = "url(../../../src/images/vkontakte.png) repeat #fc0";
-
-
-
-
-            /*this._buttonForInputName = goog.dom.createElement("INPUT");
-            this._buttonForInputName.style.position = "absolute";
-            goog.style.setPosition(this._buttonForInputName, new goog.math.Coordinate(460, 570));
-            goog.style.setSize(this._buttonForInputName, new goog.math.Size(75, 27));
-            this._buttonForInputName.className = "enter";
-            this._buttonForInputName.value = "Add name";
-            this._buttonForInputName.type = "button";
-            document.body.appendChild(this._buttonForInputName);*/
 
             this._alert = document.createElement("DIV");
             this._alert.className = "alert";
@@ -154,51 +127,7 @@ goog.scope(function() {
             this._blockForInputName.onchange = goog.bind(this._func, this);
             document.body.appendChild(this._blockForInputName);
 
-            /*this._icon3 = goog.dom.createElement(goog.dom.TagName.A);
-            this._icon3.href = "kghgjhkljglhkjgklhjklghj";
-            //this._icon.innerText = "url(../../../src/images/facebook.jpg)";
-            this._icon3.innerHTML = "VK";
-            newDiv3.appendChild(this._icon3);*/
             document.body.appendChild(newDiv3);
-
-            //this._icon.param.href = "http://www.loveradio.ru/player/3868.htm";
-            //document.body.appendChild(this._icon);
-
-           /* this._alert3 = document.createElement("DIV");
-            this._alert3.className = "alert";
-            this._alert3.innerHTML = "<strong>Пожалуйста, введите слово для отгадывания. </strong> Макс. длина слова - 15 символов. Минимальная - 3 символ." +
-                " Слово должно состоять только из русских букв.";
-            goog.style.setPosition(this._alert3, new goog.math.Coordinate(230, 0));
-            goog.style.setSize(this._alert3, new goog.math.Size(500, 60));
-            document.body.appendChild(this._alert3);
-
-            this._alert4 = document.createElement("DIV");
-            this._alert4.className = "alert";
-            this._alert4.innerHTML = "<strong>Пожалуйста, введите подсказку для вашего слова. </strong> Макс. длина подсказки - 300 символов. Минимальная - 30 символ." +
-                " Подсказка должна состоять только из русских букв.";
-            goog.style.setPosition(this._alert4, new goog.math.Coordinate(770, 0));
-            goog.style.setSize(this._alert4, new goog.math.Size(500, 60));
-            document.body.appendChild(this._alert4);
-
-            this._blockForWord = goog.dom.createElement("INPUT");
-            this._blockForWord.style.position = "absolute";
-            goog.style.setPosition(this._blockForWord, new goog.math.Coordinate(250, 100));
-            goog.style.setSize(this._blockForWord, new goog.math.Size(350, 25));
-            this._blockForWord.className = "enter";
-            this._blockForWord.type = "text";
-            this._blockForWord.value = this._word;
-            this._blockForWord.onchange = goog.bind(this._funcForTransferWord, this);
-            document.body.appendChild(this._blockForWord);
-
-            this._blockForHint = goog.dom.createElement("INPUT");
-            this._blockForHint.style.position = "absolute";
-            goog.style.setPosition(this._blockForHint, new goog.math.Coordinate(870, 100));
-            goog.style.setSize(this._blockForHint, new goog.math.Size(250, 25));
-            this._blockForHint.className = "enter";
-            this._blockForHint.type = "text";
-            this._blockForHint.value = this._hint;
-            this._blockForHint.onchange = goog.bind(this._funcForTransferHint, this);
-            document.body.appendChild(this._blockForHint);*/
 
             this._createRecordTableButton();
 
@@ -210,8 +139,6 @@ goog.scope(function() {
             goog.array.insert(this._players, new tpo.Participant(new goog.math.Coordinate(document.documentElement.clientWidth / 10, document.documentElement.clientHeight / 6), 1, this._blockForInputName.value));
             goog.array.insert(this._players, new tpo.Participant(new goog.math.Coordinate(document.documentElement.clientWidth / 15, document.documentElement.clientHeight / 2.5), 2, "player1"));
             goog.array.insert(this._players, new tpo.Participant(new goog.math.Coordinate(document.documentElement.clientWidth / 10, document.documentElement.clientHeight / 1.6), 3, "player2"));
-            //this._func(this._blockForInputName.value);
-            //document.body.removeChild(this._buttonForInputName);
             document.body.removeChild(this._blockForInputName);
             document.body.removeChild(this._recordTable);
             document.body.removeChild(this._alert);
@@ -219,20 +146,10 @@ goog.scope(function() {
             document.body.removeChild(this._button);
             this._createHistory();
 
-
-            /*this._alert2 = document.createElement("DIV");
-            this._alert2.className = "alert";
-            this._alert2.innerHTML = "Введите имя для <strong>первого</strong> игрока";
-            goog.style.setPosition(this._alert2, new goog.math.Coordinate(200, 500));
-            goog.style.setSize(this._alert2, new goog.math.Size(300, 25));
-            document.body.appendChild(this._alert2);*/
-
-
-
             this._rotatingBar = goog.dom.createElement("INPUT");
             this._rotatingBar.style.position = "absolute";
-            goog.style.setPosition(this._rotatingBar, new goog.math.Coordinate(600, 200));
-            goog.style.setSize(this._rotatingBar, new goog.math.Size(200, 65));
+            goog.style.setPosition(this._rotatingBar, new goog.math.Coordinate(document.documentElement.clientWidth / 2.25, document.documentElement.clientHeight / 4));
+            goog.style.setSize(this._rotatingBar, new goog.math.Size(document.documentElement.clientWidth / 10, document.documentElement.clientHeight / 10));
             this._rotatingBar.className = "enter";
             this._rotatingBar.style.color = "rgb(50, 220, 90)"
             this._rotatingBar.type = "button";
@@ -251,24 +168,7 @@ goog.scope(function() {
 
             this._pole = new tpo.PoleChudes(this._word, this._hint);
 
-
-
-            /*this._score2 = document.createElement("DIV");
-            this._score2.className = "alert";
-            this._score2.innerHTML = 0;
-            goog.style.setPosition(this._score2, new goog.math.Coordinate(10, 260));
-            goog.style.setSize(this._score2, new goog.math.Size(30, 10));
-            document.body.appendChild(this._score2);
-
-            this._score3 = document.createElement("DIV");
-            this._score3.className = "alert";
-            this._score3.innerHTML = 0;
-            goog.style.setPosition(this._score3, new goog.math.Coordinate(35, 420));
-            goog.style.setSize(this._score3, new goog.math.Size(30, 10));
-            document.body.appendChild(this._score3);*/
-
             const thisPtr = this;
-            //const thisPtr = this;
 
             document.addEventListener("Enter letter", function (e)
             {
@@ -435,6 +335,7 @@ goog.scope(function() {
 
             this._buttonForEnterFullWord = goog.dom.createElement("INPUT");
             this._buttonForEnterFullWord.className = "enter";
+            this._buttonForEnterFullWord.style.position = "absolute";
             goog.style.setPosition(this._buttonForEnterFullWord, new goog.math.Coordinate(460, 570));
             goog.style.setSize(this._buttonForEnterFullWord, new goog.math.Size(75, 27));
             //this._buttonForEnterFullWord.className = "button";
@@ -451,15 +352,15 @@ goog.scope(function() {
             this._alertEnterWord.style.position = "absolute";
             this._alertEnterWord.className = "alert";
             this._alertEnterWord.innerHTML = "Введите букву";
-            goog.style.setPosition(this._alertEnterWord, new goog.math.Coordinate(200, 500));
-            goog.style.setSize(this._alertEnterWord, new goog.math.Size(300, 25));
+            goog.style.setPosition(this._alertEnterWord, new goog.math.Coordinate(document.documentElement.clientWidth / 6, document.documentElement.clientHeight - document.documentElement.clientHeight / 4));
+            goog.style.setSize(this._alertEnterWord, new goog.math.Size(document.documentElement.clientWidth / 5, 25));
             document.body.appendChild(this._alertEnterWord);
 
 
             this._blockForEnterLetter = goog.dom.createElement("INPUT");
             this._blockForEnterLetter.style.position = "absolute";
-            goog.style.setPosition(this._blockForEnterLetter, new goog.math.Coordinate(200, 570));
-            goog.style.setSize(this._blockForEnterLetter, new goog.math.Size(250, 25));
+            goog.style.setPosition(this._blockForEnterLetter, new goog.math.Coordinate(document.documentElement.clientWidth / 6, document.documentElement.clientHeight - document.documentElement.clientHeight / 6));
+            goog.style.setSize(this._blockForEnterLetter, new goog.math.Size(document.documentElement.clientWidth / 6, 25));
             this._blockForEnterLetter.className = "button";
             this._blockForEnterLetter.type = "text";
             //this._blockForEnterLetter.onchange = goog.bind(this._func, this);
@@ -467,8 +368,8 @@ goog.scope(function() {
 
             this._buttonForEnterLetter = goog.dom.createElement("INPUT");
             this._buttonForEnterLetter.style.position = "absolute";
-            goog.style.setPosition(this._buttonForEnterLetter, new goog.math.Coordinate(460, 570));
-            goog.style.setSize(this._buttonForEnterLetter, new goog.math.Size(75, 27));
+            goog.style.setPosition(this._buttonForEnterLetter, new goog.math.Coordinate(document.documentElement.clientWidth / 6 + document.documentElement.clientWidth / 6, document.documentElement.clientHeight - document.documentElement.clientHeight / 6 + 1));
+            goog.style.setSize(this._buttonForEnterLetter, new goog.math.Size(document.documentElement.clientWidth / 17, 27));
             this._buttonForEnterLetter.className = "button";
             this._buttonForEnterLetter.value = "Add letter";
             this._buttonForEnterLetter.type = "button";
@@ -555,7 +456,7 @@ goog.scope(function() {
             }
 
             if (!findLetter) {
-                this._history.innerHTML += "Игрок: " + this._players[this._movePlayer - 1]._name + " ввел букву, которой нет в слове. " + '\n';
+                this._history.innerHTML += "Игрок: " + this._players[this._movePlayer - 1]._name + " ввел букву, которой нет в слове. " + 'Буква: ' + letter;
                 this._nextPlayer();
             }
             else if (this._moveBot)
@@ -574,26 +475,6 @@ goog.scope(function() {
         _func: function()
         {
             this._players[this._numberForName].setName(this._blockForInputName.value);
-            //this._numberForName++;
-            /*if (this._numberForName == 3)
-            {
-                document.body.removeChild(this._blockForInputName);
-                //document.body.removeChild(this._alert);
-                document.body.removeChild(this._alert2);
-                document.body.removeChild(this._buttonForInputName);
-
-                this._alert.className = "alert";
-                this._alert.innerHTML = "Ходит <strong>первый</strong> игрок";
-                goog.style.setPosition(this._alert, new goog.math.Coordinate(230, 0));
-                goog.style.setSize(this._alert, new goog.math.Size(150, 25));
-
-
-            }
-            if (this._numberForName == 1)
-                this._alert2.innerHTML = "Введите имя для <strong>второго</strong> игрока";
-            if (this._numberForName == 2)
-                this._alert2.innerHTML = "Введите имя для <strong>третьего</strong> игрока";*/
-            //this._alert2.innerHTML = "Введите имя для <strong>this._numberForName</strong> игрока";
         },
 
         _removeEnterWord: function()
@@ -642,7 +523,6 @@ goog.scope(function() {
             this._recordTable.style.border = "8px solid #ff2f00";
             goog.style.setPosition(this._recordTable, new goog.math.Coordinate(document.documentElement.clientWidth / 2 - 174, document.documentElement.clientHeight / 2 + 70));
             goog.style.setSize(this._recordTable, new goog.math.Size(348, 60));
-            //this._recordTable.addEventListener("click", goog.bind(this._func, this));
             document.body.appendChild(this._recordTable);
         }
     });

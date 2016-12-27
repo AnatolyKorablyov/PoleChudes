@@ -14,16 +14,17 @@ goog.scope(function() {
             this.createBaraban();
             this.createArrow();
             this.createLeader();
+
             this._word = word;
 
-            this._bonusPoints = 240;
+            this._bonusPoints = 0;
 
             this._words = ["вратарь", "фуникулер", "абсент", "воротник"];
             this._questions = ["Так в старину называли сторожа городских ворот", "Железная дорога с канатной тягой, устраиваемая на крутых подьемах", "Анисовая настойка или ликер", "Что мексиканцы изготовляли из волокнистой древесины кактусов"];
 
             var res = this._getRandomArbitary(0, 3) | 0;
             this._word = this._words[res];
-            this._questions = this._questions[res];
+            this._question = this._questions[res];
 
             this.createWord(this._word);
 
@@ -80,14 +81,29 @@ goog.scope(function() {
                     document.dispatchEvent(new Event("Rotated"));
                 }
             };
+            this._displayHint();
+
         },
+
+        _displayHint:function()
+        {
+            this._alert = document.createElement("DIV");
+            this._alert.className = "alert";
+            this._alert.innerHTML = "<strong>Подскзка!</strong>" + " " + this._question;
+            goog.style.setPosition(this._alert, new goog.math.Coordinate(document.documentElement.clientWidth / 6, 0));
+            goog.style.setSize(this._alert, new goog.math.Size(document.documentElement.clientWidth / 3, document.documentElement.clientHeight / 10));
+            document.body.appendChild(this._alert);
+        },
+
         createBaraban: function()
         {
             this._baraban = new Image(300, 300);
             this._baraban.src = '../../../src/images/baraban.png';
             this._baraban.style.position = "absolute";
-            this._baraban.style.left = '250px';
-            this._baraban.style.top = '150px';
+            goog.style.setPosition(this._baraban, new goog.math.Coordinate(document.documentElement.clientWidth / 5, document.documentElement.clientHeight / 5));
+            goog.style.setSize(this._baraban, new goog.math.Size(document.documentElement.clientWidth / 4.5, document.documentElement.clientWidth / 4.5));
+            //this._baraban.style.left = ;
+           // this._baraban.style.top = document.documentElement.clientHeight / 6;
             this._baraban.style.WebkitTransform = "rotate(" + this._degrees + "deg)";
             document.body.appendChild(this._baraban);
         },
@@ -95,9 +111,10 @@ goog.scope(function() {
         {
             this._arrow = new Image(50, 50);
             this._arrow.src = '../../../src/images/up.png';
+            goog.style.setPosition(this._arrow, new goog.math.Coordinate(document.documentElement.clientWidth / 3.45, document.documentElement.clientHeight / 1.5));
             this._arrow.style.position = "absolute";
-            this._arrow.style.left = '375px';
-            this._arrow.style.top = '450px';
+            //this._arrow.style.left = '375px';
+            //this._arrow.style.top = '450px';
             document.body.appendChild(this._arrow);
         },
         createLeader: function()
